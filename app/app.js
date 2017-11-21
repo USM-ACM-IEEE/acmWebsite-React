@@ -12,28 +12,36 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { useScroll } from 'react-router-scroll';
+import { ConnectedRouter } from 'react-router-redux';
+import FontFaceObserver from 'fontfaceobserver';
+import createHistory from 'history/createBrowserHistory';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
 import App from 'containers/App';
 
-// Import selector for `syncHistoryWithStore`
-import { makeSelectLocationState } from 'containers/App/selectors';
-
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
 
 // Load the favicon, the manifest.json file and the .htaccess file
-/* eslint-disable import/no-unresolved, import/extensions */
-import '!file-loader?name=[name].[ext]!./favicon.ico';
+/* eslint-disable import/no-webpack-loader-syntax */
+import '!file-loader?name=[name].[ext]!./images/favicon.ico';
+import '!file-loader?name=[name].[ext]!./images/icon-72x72.png';
+import '!file-loader?name=[name].[ext]!./images/icon-96x96.png';
+import '!file-loader?name=[name].[ext]!./images/icon-120x120.png';
+import '!file-loader?name=[name].[ext]!./images/icon-128x128.png';
+import '!file-loader?name=[name].[ext]!./images/icon-144x144.png';
+import '!file-loader?name=[name].[ext]!./images/icon-152x152.png';
+import '!file-loader?name=[name].[ext]!./images/icon-167x167.png';
+import '!file-loader?name=[name].[ext]!./images/icon-180x180.png';
+import '!file-loader?name=[name].[ext]!./images/icon-192x192.png';
+import '!file-loader?name=[name].[ext]!./images/icon-384x384.png';
+import '!file-loader?name=[name].[ext]!./images/icon-512x512.png';
 import '!file-loader?name=[name].[ext]!./manifest.json';
-import 'file-loader?name=[name].[ext]!./.htaccess';
-/* eslint-enable import/no-unresolved, import/extensions */
+import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line import/extensions
+/* eslint-enable import/no-webpack-loader-syntax */
 
-import configureStore from './store';
+import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
@@ -41,53 +49,42 @@ import { translationMessages } from './i18n';
 // Import CSS reset and Global Styles
 import './global-styles';
 
-// Import root routes
-import createRoutes from './routes';
+// Observe loading of Open Sans (to remove open sans, remove the <link> tag in
+// the index.html file and this observer)
+const openSansObserver = new FontFaceObserver('Open Sans', {});
 
-// Create redux store with history
-// this uses the singleton browserHistory provided by react-router
-// Optionally, this could be changed to leverage a created history
-// e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
-const initialState = {};
-const store = configureStore(initialState, browserHistory);
-
-// Sync history and store, as the react-router-redux reducer
-// is under the non-default key ("routing"), selectLocationState
-// must be provided for resolving how to retrieve the "route" in the state
-const history = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState: makeSelectLocationState(),
+// When Open Sans is loaded, add a font-family using Open Sans to the body
+openSansObserver.load().then(() => {
+  document.body.classList.add('fontLoaded');
+}, () => {
+  document.body.classList.remove('fontLoaded');
 });
 
-// Set up the router, wrapping all Routes in the App component
-const rootRoute = {
-  component: App,
-  childRoutes: createRoutes(store),
-};
+// Create redux store with history
+const initialState = {};
+const history = createHistory();
+const store = configureStore(initialState, history);
+const MOUNT_NODE = document.getElementById('app');
 
 const render = (messages) => {
   ReactDOM.render(
     <Provider store={store}>
       <LanguageProvider messages={messages}>
-        <Router
-          history={history}
-          routes={rootRoute}
-          render={
-            // Scroll to top when going to a new page, imitating default browser
-            // behaviour
-            applyRouterMiddleware(useScroll())
-          }
-        />
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
       </LanguageProvider>
     </Provider>,
-    document.getElementById('app')
+    MOUNT_NODE
   );
 };
 
-// Hot reloadable translation json files
 if (module.hot) {
+  // Hot reloadable React components and translation json files
   // modules.hot.accept does not accept dynamic dependencies,
   // have to be constants at compile-time
-  module.hot.accept('./i18n', () => {
+  module.hot.accept(['./i18n', 'containers/App'], () => {
+    ReactDOM.unmountComponentAtNode(MOUNT_NODE);
     render(translationMessages);
   });
 }
@@ -99,6 +96,7 @@ if (!window.Intl) {
   }))
     .then(() => Promise.all([
       import('intl/locale-data/jsonp/en.js'),
+      import('intl/locale-data/jsonp/de.js'),
     ]))
     .then(() => render(translationMessages))
     .catch((err) => {
