@@ -7,8 +7,8 @@ https://github.com/USM-ACM/acmWebsite/issues?q=is%3Aissue+is%3Aclosed
 
 ## Issue Type
 
-- [ ] Bug (https://github.com/USM-ACM/acmWebsite/blob/master/.github/CONTRIBUTING.md#bugs)
-- [ ] Feature (https://github.com/USM-ACM/acmWebsite/blob/master/.github/CONTRIBUTING.md#features)
+- [ ] [Bug](https://github.com/USM-ACM/acmWebsite/blob/master/.github/CONTRIBUTING.md#bugs)
+- [ ] [Feature](https://github.com/USM-ACM/acmWebsite/blob/master/.github/CONTRIBUTING.md#features)
 
 ## Description
 
