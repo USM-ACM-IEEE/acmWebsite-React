@@ -1,18 +1,10 @@
-# Contributing to react-boilerplate
+# Contributing to the ACM Website
 
-Love react-boilerplate and want to help? Thanks so much, there's something to do for everybody!
+Love website and want to help? Thanks so much, there's something to do for everybody!
 
 Please take a moment to review this document in order to make the contribution process easy and effective for everyone involved.
 
 Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open source project. In return, they should reciprocate that respect in addressing your issue or assessing patches and features.
-
-## Using the issue tracker
-
-The [issue tracker](https://github.com/react-boilerplate/react-boilerplate/issues) is
-the preferred channel for [bug reports](#bugs), [features requests](#features)
-and [submitting pull requests](#pull-requests).
-
-<a name="bugs"></a>
 
 ## Bug reports
 
@@ -82,11 +74,11 @@ included in the project:
 
     ```bash
     # Clone your fork of the repo into the current directory
-    git clone https://github.com/<your-username>/react-boilerplate.git
+    git clone https://github.com/<your-username>/acmWebsite.git
     # Navigate to the newly cloned directory
-    cd react-boilerplate
+    cd acmWebsite
     # Assign the original repo to a remote called "upstream"
-    git remote add upstream https://github.com/react-boilerplate/react-boilerplate.git
+    git remote add upstream https://github.com/USM-ACM/acmWebsite.git
     ```
 
 2.  If you cloned a while ago, get the latest changes from upstream:
@@ -120,15 +112,15 @@ included in the project:
     with a clear title and description.
 
 **IMPORTANT**: By submitting a patch, you agree to allow the project
-owners to license your work under the terms of the [MIT License](https://github.com/react-boilerplate/react-boilerplate/blob/master/LICENSE.md).
+owners to license your work under the terms of the [MIT License](https://github.com/USM-ACM/acmWebsite/blob/master/LICENSE).
 
 # Collaborating guidelines
 
 You can find the list of all maintainers in [MAINTAINERS.md](./MAINTAINERS.md).
 
-There are few basic rules to ensure high quality of the boilerplate:
+There are few basic rules to ensure the quality of the ACM Website:
 
-- Before merging, a PR requires at least two approvals from the collaborators unless it's an architectural change, a large feature, etc. If it is, then at least 50% of the core team have to agree to merge it, with every team member having a full veto right. (i.e. every single one can block any PR)
-- A PR should remain open for at least two days before merging (does not apply for trivial contributions like fixing a typo). This way everyone has enough time to look into it.
+- Before merging, a PR requires approval from the Chapter Webmaster unless it's an architectural change, a large feature, etc. If it is, then a majority vote among maintainers must succeed to merge it, with the Chapter Chair, Vice Chair, and Webmaster reserving full veto rights over any PR.
+- A PR should remain open for at least one day before merging (does not apply for trivial contributions like fixing a typo). This way everyone has enough time to look into it.
 
 You are always welcome to discuss and propose improvements to this guideline.
